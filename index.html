@@ -81,17 +81,25 @@
             margin-bottom: 25px;
         }
 
-        .news-wrapper {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-left: 4px solid var(--accent-gold);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
+		.news-wrapper {
+			background: var(--bg-card);
+			border: 1px solid var(--border-color);
+			border-left: 4px solid var(--accent-gold);
+			padding: 20px;
+			border-radius: 12px;
+			box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+			display: flex;
+			gap: 15px;
+			align-items: flex-start;
+			min-height: 220px; /* Hogy egy magasságban legyen a szabályzattal */
+		}
+
+		/* A szöveges rész fix magassága */
+		.news-scroll-container {
+			height: 160px; /* Fix magasság, itt jelenik meg a scroll */
+			overflow-y: auto;
+			padding-right: 10px;
+		}
 
         .news-text {
             flex: 1;
@@ -271,6 +279,17 @@
         .rank-1 .rank-number { color: var(--accent-gold); font-size: 1.5rem; }
         .rank-2 .rank-number { color: #c0c0c0; }
         .rank-3 .rank-number { color: #cd7f32; }
+		
+		/* Dobogós keretek */
+		.player-card.rank-1 { border: 2px solid #FFD700; background: linear-gradient(135deg, #2a2a10, #17171e); }
+		.player-card.rank-2 { border: 2px solid #C0C0C0; background: linear-gradient(135deg, #1e1e1e, #17171e); }
+		.player-card.rank-3 { border: 2px solid #CD7F32; background: linear-gradient(135deg, #1a1510, #17171e); }
+
+		/* Visszafogott alap keret a többieknek */
+		.player-card {
+			border: 1px solid var(--border-color);
+			transition: transform 0.2s;
+		}
 
         .player-name-wrapper {
             display: flex;
@@ -435,7 +454,7 @@
 
 <div class="container">
 	<header>
-        <h1>🏆 Pauper League: <span>War of the Guildpacts</span></h1>
+        <h1>🏆 Common Ground:<span>War of the Guilds</span></h1>
         <p>Közösségi ranglista és versenyeredmények</p>
     </header>
 
@@ -447,9 +466,9 @@
             <h3>📜 Hivatalos Versenyszabályzat</h3>
             <p>Üdvözlünk a helyi Pauper Liga leírásában! A lebonyolítás menete:</p>
 			<ul>
-                <li><b>Formátum:</b> Konstruált Pauper</li>
+                <li><b>Formátum:</b> Pauper</li>
                 <li><b>Pontozás:</b> Részvételért 1 pont, győzelemért 1 pont, döntetlenért fél pont, vereségért 0 pont míg a droppért mínusz fél pont jár. A ranglistában maximum a 7 legjobb hét eredménye adódik össze (a leggyengébb hét kiesik).</li>
-                <li><b>Helyszínek és Döntő:</b> A fordulókat párhuzamosan a Remetebarlangban és a Pöttyös Zebrában tartjuk. A szezon végén mindkét helyszín <b>TOP 4 legjobb játékosa</b> kvalifikál a mindent eldöntő TOP 8-as döntőre!</li>
+                <li><b>Helyszínek és Döntő:</b> A fordulókat párhuzamosan a Vécon és Szegeden tartjuk. A szezon végén mindkét helyszín <b>TOP 4 legjobb játékosa</b> kvalifikál a mindent eldöntő TOP 8-as döntőre!</li>
 				<li><b>Kvalifikációs feltétel:</b> A TOP 8-as rájátszásba kizárólag olyan játékos juthat be, aki a 8 hét alatt <b>legalább 5 eseményen (eventen)</b> részt vett.</li>
                 <li><b>Guild Bajnokság:</b> A rendszer követi, hogy a 10 színkombináció (guild) közül melyikkel szerezte egy játékos a legtöbb pontot. Aki a háború végén egy adott guild élén áll, megkapja annak egyedi, gravírozott fémkártyáját! A monocolor vagy több mint két színű deckek nem számítanak bele.</li>
             </ul>
@@ -480,8 +499,8 @@
 
         <div class="filter-buttons">
             <button class="filter-btn active" onclick="filterLocation('all')">Összes helyszín</button>
-            <button class="filter-btn" onclick="filterLocation('Remetebarlang')">Remetebarlang</button>
-            <button class="filter-btn" onclick="filterLocation('Pöttyös Zebra')">Pöttyös Zebra</button>
+            <button class="filter-btn" onclick="filterLocation('Vác')">Vác</button>
+            <button class="filter-btn" onclick="filterLocation('Szeged')">Szeged</button>
         </div>
     </div>
 
@@ -505,22 +524,17 @@ function getGuildFromDeck(deckName) {
 
 const data = {
     "news": {
-        "title": "Elindult a bajnokság!",
-        "content": "Légy részese Ravnica örök belharcának! Válassz egy guildet, képviseld és válj bajnokká!",
+        "title": "Common Ground, az új Pauper Liga!",
+        "content": "A Remetebarlang támogatásával indul egy új Pauper Liga, a Common Ground, amely két helyszínen fut Vácon és Szegeden, és egy 8 hetes nyári szezonnal mutatkozik be. Bárhol indulsz, ugyanannak a versenynek vagy a része, egy nagy közösség, egy liga, egy közös játék. Ismerős arcok, visszatérő rivalizálások, új stratégiák és közös élmények minden héten. Már a név választás során szem előtt tartottuk a liga fő célját, a közösség építést. Így nem véletlen, hogy a név Common Ground angolul azt jelenti: közös nevező, az a pont, ahol egyet értünk. És mi más lehetne jobb közös nevező, mint maga a Pauper formátum, ahol minden pakli közös alapja ugyanaz: a valaha commonként megjelent lapok világa. A liga lényege, hogy nem egyetlen versenynapról van szó, hanem egy 8 hetes szezonról: minden forduló után pontokat gyűjtenek a résztvevők, a szezon végén pedig csak a legjobb 7 eredmény számít (a leggyengébb hetet mindenkinek elengedjük). Nincs vége egy rossz nap után: van idő fejlődni, visszajönni, és újra harcba szállni.A szezon végén mindkét helyszín legjobb 4 játékosa kvalifikál egy közös, mindent eldöntő TOP 8 döntőre. Itt derül ki, ki lesz a Common Ground nyári szezonjának bajnoka. A döntő azonban nem egy egyszerű versenynap lesz, hanem a szezon csúcspontja: egy nagy közösségi esemény opcionális side eventekkel, rengeteg játékkal és igazi fináléhoz méltó hangulattal. A nyári szezon főtémája a Guild Bajnokság: a rendszer azt is követi, melyik kétszínű kombinációval (pl. Azorius, Rakdos, Gruul) szerezted a pontjaidat. Aki a szezon végén egy adott Guild élén áll, saját, gravírozott fémkártyát kap (monocolor vagy háromszínű deckek ebbe a versenybe nem számítanak bele).Minden forduló nevezési díja 3000 Ft, formátuma Pauper, kizárólag valaha Common kiadásban megjelent lapokkal lehet építeni a paklit. Ez a formátum az egyensúlyról, kreativitásról és valódi játéktudásról szól, itt tényleg számít minden döntés.A fordulók időpontjait a megszokott módon, a Remete eseménynaptárában találod.Válassz guildet, építs paklit, és írjuk együtt a szezon történetét. Gyere, találjuk meg a közös nevezőt!Common Ground: Common lapok, közös alap, közös élmény.",
         "card_image_name": "Seal of the Guildpact"
     },
     "players": [
         {
-            "name": "Béla",
+            "name": "Varga Béla",
             "nickname": "A Béla",
-            "tags": ["☀️ Weenie", "💀 Dredge", "💧 Ninjas"],
+            "tags": ["☀️ Weenie", "💀 Dredge"],
             "history": [
-                {"date": "2026-05-22", "location": "Remetebarlang", "deck": "Ninjas", "record": "4-0-0", "points": 12},
-                {"date": "2026-05-15", "location": "Pöttyös Zebra", "deck": "Dredge", "record": "3-1-0", "points": 9},
-                {"date": "2026-05-08", "location": "Remetebarlang", "deck": "White Weenie", "record": "3-0-1", "points": 10},
-                {"date": "2026-05-01", "location": "Pöttyös Zebra", "deck": "Ninjas", "record": "4-0-0", "points": 12},
-				{"date": "2026-04-23", "location": "Remetebarlang", "deck": "White Weenie", "record": "3-0-1", "points": 10},
-                {"date": "2026-04-10", "location": "Pöttyös Zebra", "deck": "Ninjas", "record": "4-0-0", "points": 12}
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Ninjas", "record": "4-0-0", "points": 12},
             ]
         },
         {
@@ -528,22 +542,15 @@ const data = {
             "nickname": "Lele",
             "tags": ["💧 Faeries"],
             "history": [
-                {"date": "2026-05-22", "location": "Remetebarlang", "deck": "Mono U Faeries", "record": "3-1-0", "points": 9},
-                {"date": "2026-05-15", "location": "Pöttyös Zebra", "deck": "Izzet Faeries", "record": "3-1-0", "points": 9},
-                {"date": "2026-05-08", "location": "Remetebarlang", "deck": "Mono U Faeries", "record": "4-0-0", "points": 12},
-                {"date": "2026-05-01", "location": "Pöttyös Zebra", "deck": "Izzet Faeries", "record": "2-2-0", "points": 6},
-				{"date": "2026-04-01", "location": "Pöttyös Zebra", "deck": "Izzet Faeries", "record": "2-2-0", "points": 6}
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Mono U Faeries", "record": "3-1-0", "points": 9},
             ]
         },
         {
-            "name": "Eszti",
+            "name": "Horváth Eszter",
             "nickname": "",
             "tags": ["💀 Monoblack", "🦖 Monsters"],
             "history": [
-                {"date": "2026-05-22", "location": "Remetebarlang", "deck": "Monoblack Control", "record": "2-1-1", "points": 7},
-                {"date": "2026-05-15", "location": "Pöttyös Zebra", "deck": "RG Monsters", "record": "3-1-0", "points": 9},
-                {"date": "2026-05-08", "location": "Remetebarlang", "deck": "Monoblack Control", "record": "2-2-0", "points": 6},
-                {"date": "2026-05-01", "location": "Pöttyös Zebra", "deck": "RG Monsters", "record": "3-1-0", "points": 9}
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Monoblack Control", "record": "2-1-1", "points": 7},
             ]
         },
         {
@@ -551,23 +558,97 @@ const data = {
             "nickname": "",
             "tags": ["🍃 TurboFog", "🛠️ Homebrew"],
             "history": [
-                {"date": "2026-05-22", "location": "Pöttyös Zebra", "deck": "TurboFog", "record": "2-2-0", "points": 6},
-                {"date": "2026-05-15", "location": "Pöttyös Zebra", "deck": "Sultai Homebrew", "record": "2-2-0", "points": 6},
-                {"date": "2026-05-08", "location": "Remetebarlang", "deck": "TurboFog", "record": "3-1-0", "points": 9},
-                {"date": "2026-04-24", "location": "Remetebarlang", "deck": "TurboFog", "record": "2-1-1", "points": 7}
+                //{"date": "2026-05-22", "location": "Szeged", "deck": "TurboFog", "record": "2-2-0", "points": 6},
             ]
         },
         {
             "name": "Bukros Krisztián",
             "nickname": "",
-            "tags": ["🛡️ Control", "💧💀 Dimir", "🏰 Gates"],
+            "tags": ["🛡️ Control"],
             "history": [
-                {"date": "2026-05-22", "location": "Remetebarlang", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
-                {"date": "2026-05-15", "location": "Pöttyös Zebra", "deck": "Azorius Gates", "record": "2-2-0", "points": 6},
-                {"date": "2026-05-08", "location": "Remetebarlang", "deck": "Dimir Control", "record": "2-2-0", "points": 6},
-                {"date": "2026-05-01", "location": "Pöttyös Zebra", "deck": "Selesnya Gates", "record": "2-2-0", "points": 6}
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
             ]
-        }
+        },
+		{
+            "name": "Sebők András",
+            "nickname": "",
+            "tags": ["🔥️ Burn"],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+        },
+		{
+            "name": "Magos Krisztián",
+            "nickname": "",
+            "tags": ["🧝‍♂️️ Elf"],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+        },
+		{
+            "name": "Harangi lajos",
+            "nickname": "",
+            "tags":[],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+        },
+		{
+            "name": "Takács Gergely",
+            "nickname": "",
+            "tags":[],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+        },
+		{
+            "name": "Ostorházy Roland",
+            "nickname": "",
+            "tags":[],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+        },
+		{
+            "name": "Kaposvári Gábor",
+            "nickname": "",
+            "tags":["🦸‍♂️ Heroic"],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+        },
+		{
+            "name": "Szél Mihály",
+            "nickname": "",
+            "tags":[],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+        },
+		{
+            "name": "Félegyházi Csaba",
+            "nickname": "",
+            "tags":[],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+        },
+		{
+            "name": "Jeje",
+            "nickname": "",
+            "tags":[],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+        },
+		{
+            "name": "Kiss Dávid",
+            "nickname": "",
+            "tags":[],
+            "history": [
+                //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
+            ]
+		}
     ]
 };
 
@@ -658,87 +739,76 @@ function renderLeaderboard() {
     const container = document.getElementById('leaderboard');
     container.innerHTML = '';
 
-    let processed = data.players.map(player => {
-        // Helyszín ÉS Guild alapú meccsszűrés
+    // 1. Kiszámoljuk mindenki pontszámát és a teljes listát rendezzük
+    let allPlayers = data.players.map(player => {
+        // Helyszín ÉS Guild alapú szűréshez szükséges számítás
         const filteredHistory = player.history.filter(h => {
             const locMatch = (currentLocation === 'all' || h.location.toLowerCase() === currentLocation.toLowerCase());
-            
-			const matchGuild = getGuildFromDeck(h.deck) || 'none';
+            const matchGuild = getGuildFromDeck(h.deck) || 'none';
             const guildMatch = (currentGuild === 'all' || matchGuild.toLowerCase() === currentGuild.toLowerCase());
-            
             return locMatch && guildMatch;
         });
 
-        // Kijelöljük a meccsek pontszámait, csökkenő sorrendbe rakjuk, és csak az első 7-et tartjuk meg
         const topScores = filteredHistory.map(h => h.points)
                                          .sort((a, b) => b - a)
                                          .slice(0, 7);
         const totalPoints = topScores.reduce((sum, points) => sum + points, 0);
         
-        const formGuide = player.history.slice(0, 5).map(h => {
-            const wins = parseInt(h.record.split('-')[0]);
-            const losses = parseInt(h.record.split('-')[1]);
-            return wins > losses ? 'win' : (wins === losses ? 'draw' : 'loss');
-        });
-
-        return {
-            name: player.name,
-            nickname: player.nickname,
-            tags: player.tags,
-            total_points: totalPoints,
-            history: filteredHistory,
-            form: formGuide
-        };
+        return { ...player, total_points: totalPoints, filteredHistory };
     });
 
-	// Keresés szűrő (biztonságos ellenőrzéssel)
-    if (currentSearch && currentSearch.trim() !== '') {
-        const searchLower = currentSearch.toLowerCase().trim();
-        processed = processed.filter(p => {
-            const nameMatch = p.name ? p.name.toLowerCase().includes(searchLower) : false;
-            const nickMatch = p.nickname ? p.nickname.toLowerCase().includes(searchLower) : false;
-            return nameMatch || nickMatch;
-        });
-    }
+    // 2. Sorrendbe rendezés az összesített pontok alapján (ez adja az eredeti rangot)
+    allPlayers.sort((a, b) => b.total_points - a.total_points);
 
-    // Sorrend pontok szerint
-    processed.sort((a, b) => b.total_points - a.total_points);
+    // 3. Eredeti rangok hozzárendelése (rank 1, 2, 3...)
+    const rankedPlayers = allPlayers.map((p, index) => ({ ...p, original_rank: index + 1 }));
+
+    // 4. Szűrés a keresőmező és egyéb szűrők alapján
+    let processed = rankedPlayers.filter(player => {
+        const locMatch = (currentLocation === 'all' || player.filteredHistory.some(h => h.location.toLowerCase() === currentLocation.toLowerCase()));
+        
+        // Név/becenév keresés
+        let searchMatch = true;
+        if (currentSearch && currentSearch.trim() !== '') {
+            const searchLower = currentSearch.toLowerCase().trim();
+            const nameMatch = player.name ? player.name.toLowerCase().includes(searchLower) : false;
+            const nickMatch = player.nickname ? player.nickname.toLowerCase().includes(searchLower) : false;
+            searchMatch = nameMatch || nickMatch;
+        }
+        
+        return locMatch && searchMatch;
+    });
 
     if (processed.length === 0) {
         container.innerHTML = `<div class="no-results">Nincs találat a megadott feltételekkel...</div>`;
         return;
     }
 
-    processed.forEach((player, index) => {
-        const rank = index + 1;
+    // 5. Megjelenítés az eredeti rangszámmal
+    processed.forEach((player) => {
+        const rank = player.original_rank;
         const card = document.createElement('div');
-        card.className = `player-card rank-${rank}`;
-        card.id = `player-${index}`;
+		card.className = `player-card rank-${rank}`;
+        card.id = `player-${player.name.replace(/\s+/g, '-')}`;
 
-		// Trófea plecsnik kezelése (akár több guild esetén is)
-		let champBadgeHtml = '';
-		if (guildChampions[player.name]) {
-			champBadgeHtml = guildChampions[player.name].map(g => 
-				`<span class="badge champ-badge">🏆 ${g} Bajnok</span>`
-			).join(' ');
-		}
+        let champBadgeHtml = '';
+        if (guildChampions[player.name]) {
+            champBadgeHtml = guildChampions[player.name].map(g => 
+                `<span class="badge champ-badge">🏆 ${g} Bajnok</span>`
+            ).join(' ');
+        }
 
         const nameHtml = player.nickname 
             ? `<span class="player-name">${player.name} <span class="player-nickname">(${player.nickname})</span> ${champBadgeHtml}</span>`
             : `<span class="player-name">${player.name} ${champBadgeHtml}</span>`;
 
         const tagsHtml = player.tags.map(t => `<span class="badge">${t}</span>`).join('');
-		// Kvalifikációs ellenőrzés (minimum 5 részvétel az összes meccset nézve)
         const totalEventsPlayed = player.history ? player.history.length : 0;
-        let qualBadgeHtml = '';
-        if (totalEventsPlayed >= 5) {
-            qualBadgeHtml = `<span class="badge" style="background-color: #2ed573; color: #000; border: none;">✅ Kvalifikált</span>`;
-        } else {
-            qualBadgeHtml = `<span class="badge" style="background-color: #ff4757; color: #fff; border: none;">⚠️ ${totalEventsPlayed}/5 Event</span>`;
-        }
-        const formHtml = player.form.map(f => `<span class="form-dot form-${f}"></span>`).join('');
+        const qualBadgeHtml = totalEventsPlayed >= 5 
+            ? `<span class="badge" style="background-color: #2ed573; color: #000; border: none;">✅ Kvalifikált</span>`
+            : `<span class="badge" style="background-color: #ff4757; color: #fff; border: none;">⚠️ ${totalEventsPlayed}/5 Event</span>`;
 
-		let tableRows = player.history.map(h => `
+        let tableRows = player.history.map(h => `
             <tr>
                 <td>${h.date}</td>
                 <td><b>${h.location}</b><br><small style="color:var(--text-muted)">${h.deck} (${getGuildFromDeck(h.deck) || 'Egyéb'})</small></td>
@@ -747,12 +817,8 @@ function renderLeaderboard() {
             </tr>
         `).join('');
 
-        if (tableRows === '') {
-            tableRows = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted)">Ezen a szűrésen még nincs rögzített meccs.</td></tr>`;
-        }
-
         card.innerHTML = `
-            <div class="player-header" onclick="toggleCard(${index})">
+            <div class="player-header" onclick="toggleCard('${player.name.replace(/\s+/g, '-')}')">
                 <div class="player-info-left">
                     <span class="rank-number">#${rank}</span>
                     <div class="player-name-wrapper">
@@ -761,49 +827,27 @@ function renderLeaderboard() {
                     </div>
                 </div>
                 <div class="player-info-right">
-                    <div class="form-guide" title="Utolsó 5 verseny alakulása">${formHtml}</div>
                     <span class="player-score">${player.total_points} pont</span>
                 </div>
             </div>
             <div class="player-details">
                 <div class="details-content">
-                    <div class="chart-container">
-                        <canvas id="chart-${index}"></canvas>
-                    </div>
                     <div class="history-table-wrapper">
                         <table class="history-table">
-                           <thead>
-                               <tr>
-                                   <th>Dátum</th>
-                                   <th>Helyszín / Deck</th>
-                                   <th>Eredmény</th>
-                                   <th style="text-align:right">Pont</th>
-                               </tr>
-                           </thead>
+                           <thead><tr><th>Dátum</th><th>Helyszín / Deck</th><th>Eredmény</th><th style="text-align:right">Pont</th></tr></thead>
                            <tbody>${tableRows}</tbody>
                         </table>
                     </div>
                 </div>
             </div>
         `;
-
         container.appendChild(card);
-
-        const chronHistory = [...player.history].reverse();
-        let runningTotal = 0;
-        const chartData = chronHistory.map(h => {
-            runningTotal += h.points;
-            return { date: h.date, total: runningTotal };
-        });
-
-        if (chartData.length > 0) {
-            setTimeout(() => initChart(index, chartData), 50);
-        }
     });
 }
 
-function toggleCard(index) {
-    const card = document.getElementById(`player-${index}`);
+function toggleCard(nameId) {
+    const card = document.getElementById(`player-${nameId}`);
+    if (!card) return;
     const isActive = card.classList.contains('active');
     document.querySelectorAll('.player-card').forEach(c => c.classList.remove('active'));
     if (!isActive) card.classList.add('active');
@@ -847,16 +891,18 @@ function renderNews() {
     const newsContainer = document.getElementById('pauper-times');
     if (!data.news || !newsContainer) return;
 
+    // A kép helyét és a flexbox elrendezést egyszerűsítettük
     newsContainer.innerHTML = `
-        <div class="news-text">
-            <h3>📰 Pauper Times — Aktuális Meta</h3>
-            <h4 style="color: #fff; margin-bottom: 5px;">${data.news.title}</h4>
-            <p>${data.news.content}</p>
+        <div class="news-text" style="width: 100%;">
+            <h3 style="margin-top:0">📰 Pauper Times</h3>
+            <div class="news-scroll-container" style="height: 150px; overflow-y: auto; padding-right: 10px;">
+                <h4 style="color: #fff; margin-bottom: 5px;">${data.news.title}</h4>
+                <p>${data.news.content}</p>
+            </div>
         </div>
-        <div id="news-card-placeholder"></div>
     `;
 
-    if (data.news.card_image_name) {
+  /*  if (data.news.card_image_name) {
         const cardNameEncoded = encodeURIComponent(data.news.card_image_name);
         fetch(`https://api.scryfall.com/cards/named?exact=${cardNameEncoded}`)
             .then(response => response.json())
@@ -870,7 +916,7 @@ function renderNews() {
                 }
             })
             .catch(error => console.error("Hiba a Scryfall kép betöltésekor:", error));
-    }
+    }*/
 }
 // NYEREMÉNYALAP SZÁMÍTÓ (Minden rögzített meccs / részvétel után 500 Ft)
 function calculatePrizePool() {
