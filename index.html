@@ -470,8 +470,30 @@
                 <li><b>Pontozás:</b> Részvételért 1 pont, győzelemért 1 pont, döntetlenért fél pont, vereségért 0 pont míg a droppért mínusz fél pont jár. A ranglistában maximum a 7 legjobb hét eredménye adódik össze (a leggyengébb hét kiesik).</li>
                 <li><b>Helyszínek és Döntő:</b> A fordulókat párhuzamosan a Vécon és Szegeden tartjuk. A szezon végén mindkét helyszín <b>TOP 4 legjobb játékosa</b> kvalifikál a mindent eldöntő TOP 8-as döntőre!</li>
 				<li><b>Kvalifikációs feltétel:</b> A TOP 8-as rájátszásba kizárólag olyan játékos juthat be, aki a 8 hét alatt <b>legalább 5 eseményen (eventen)</b> részt vett.</li>
-				<li><b>Guild Bajnokság:</b> A játékosok felelőssége a pakli színkombinációjának helyes megadása. Egy deck akkor tartozik egy adott guildhez, ha a main és sideboard lapok kizárólag a két szín manaszimbólumait tartalmazzák. A részvétel feltétele mindkét színből minimum 15-15 manaszimbólum megléte a pakliban. A split manaszimbólumok nem minősülnek szabályszegésnek. A colorless, monocolor vagy háromnál több színű deckek nem számítanak bele a guild versenybe vagyis nem jár értük guild pont.</li></ul>
+				<li><b>Guild Bajnokság:</b> A játékosok felelőssége a pakli színkombinációjának helyes megadása. Egy deck akkor tartozik egy adott guildhez, ha a main és sideboard lapok kizárólag a két szín manaszimbólumait tartalmazzák. A részvétel feltétele mindkét színből minimum 15-15 manaszimbólum megléte a pakliban. A split manaszimbólumok nem minősülnek szabályszegésnek. A colorless, monocolor vagy háromnál több színű deckek nem számítanak bele a guild versenybe vagyis nem jár értük guild pont.</li>
+			</ul>
+			<button class="filter-btn" onclick="document.getElementById('guildRulesPopup').showModal()" style="margin-top:10px; width:100%;">
+				Még mindig nem tiszta!
+			</button>	
         </div>
+		<dialog id="guildRulesPopup" style="border-radius:12px; border:1px solid #2a2a35; background:#17171e; color:#f1f1f4; padding:25px; max-width:600px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    <h3 style="color: var(--accent-gold);">Guild Bajnokság - Részletes szabályok</h3>
+    <p style="margin-bottom: 15px; font-size: 0.95rem; line-height: 1.5;">
+        Egy deck akkor tekinthető az aktuális guild részének, ha a main és a sideboard lapok <b>kizárólag</b> a két szín szimbólumait tartalmazzák, ez vonatkozik a landekre is. 
+        Mindkét színből <b>minimum 15-15 szimbólumnak</b> kell szerepelnie a pakliban ez is vonatkozik a landekre.
+		Ha egy lapnak a manaköltsége és az alternatív costja vagy az aktiválható képességé is színes manát igényel, az is beleszámít a 15 szimbólumba.
+		A kizárólagosság a deck tisztaságát illetőleg minden manaszimbólumra vonatkozik. Például a tricolor fetch land, az aktiválható költség színezett manával vagy a phyrexian mana is mind megtörő tényezőnek számít.
+		A manaszimbólum akkor is számít ha a lapon devoid keyword szerepel. Az extort képesség nem számít manatörésnek mert ugyan annak fixált fekete és fehér split mana a költsége de az csak a keyword leírásában szerepel, tehát technikailag a lapon nincs rajta.
+		Az adott lap költségében szereplő manaszimbólum akkor is számít ha a deck maga képtelen castolni. Például Sneaky Snacker, Faerie Macabre, stb.
+		Az "any color" nem minősül colornak mivel nincs rajta szimbólum. 
+    </p>
+    <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--text-muted);">
+        *Ezen szabályok alól egyetlen kivételt határoztunk meg, a split manaköltséget. Az tekinthető bármelyik színeként az adott kombinációnak.*
+    </p>
+    <button class="filter-btn" onclick="document.getElementById('guildRulesPopup').close()" style="width:100%; border-color: var(--accent-gold); color: var(--accent-gold);">
+        Értettem, bezárás
+    </button>
+</dialog>
     </div>
 
     <div class="controls-wrapper">
@@ -524,7 +546,7 @@ function getGuildFromDeck(deckName) {
 const data = {
     "news": {
         "title": "Common Ground, az új Pauper Liga!",
-        "content": "A Remetebarlang támogatásával indul egy új Pauper Liga, a Common Ground, amely két helyszínen fut Vácon és Szegeden, és egy 8 hetes nyári szezonnal mutatkozik be. Bárhol indulsz, ugyanannak a versenynek vagy a része, egy nagy közösség, egy liga, egy közös játék. Ismerős arcok, visszatérő rivalizálások, új stratégiák és közös élmények minden héten. Már a név választás során szem előtt tartottuk a liga fő célját, a közösség építést. Így nem véletlen, hogy a név Common Ground angolul azt jelenti: közös nevező, az a pont, ahol egyet értünk. És mi más lehetne jobb közös nevező, mint maga a Pauper formátum, ahol minden pakli közös alapja ugyanaz: a valaha commonként megjelent lapok világa. A liga lényege, hogy nem egyetlen versenynapról van szó, hanem egy 8 hetes szezonról: minden forduló után pontokat gyűjtenek a résztvevők, a szezon végén pedig csak a legjobb 7 eredmény számít (a leggyengébb hetet mindenkinek elengedjük). Nincs vége egy rossz nap után: van idő fejlődni, visszajönni, és újra harcba szállni.A szezon végén mindkét helyszín legjobb 4 játékosa kvalifikál egy közös, mindent eldöntő TOP 8 döntőre. Itt derül ki, ki lesz a Common Ground nyári szezonjának bajnoka. A döntő azonban nem egy egyszerű versenynap lesz, hanem a szezon csúcspontja: egy nagy közösségi esemény opcionális side eventekkel, rengeteg játékkal és igazi fináléhoz méltó hangulattal. A nyári szezon főtémája a Guild Bajnokság: a rendszer azt is követi, melyik kétszínű kombinációval (pl. Azorius, Rakdos, Gruul) szerezted a pontjaidat. Aki a szezon végén egy adott Guild élén áll, saját, gravírozott fémkártyát kap (monocolor vagy háromszínű deckek ebbe a versenybe nem számítanak bele).Minden foprduló formátuma Pauper, kizárólag valaha Common kiadásban megjelent lapokkal lehet építeni a paklit. Ez a formátum az egyensúlyról, kreativitásról és valódi játéktudásról szól, itt tényleg számít minden döntés.A fordulók időpontjait a megszokott módon, a Remete eseménynaptárában találod.Válassz guildet, építs paklit, és írjuk együtt a szezon történetét. Gyere, találjuk meg a közös nevezőt!Common Ground: Common lapok, közös alap, közös élmény.",
+        "content": "A Remetebarlang támogatásával indul egy új Pauper Liga, a Common Ground, amely két helyszínen fut Vácon és Szegeden, és egy 8 hetes nyári szezonnal mutatkozik be. Bárhol indulsz, ugyanannak a versenynek vagy a része, egy nagy közösség, egy liga, egy közös játék. Ismerős arcok, visszatérő rivalizálások, új stratégiák és közös élmények minden héten. Már a név választás során szem előtt tartottuk a liga fő célját, a közösség építést. Így nem véletlen, hogy a név Common Ground angolul azt jelenti: közös nevező, az a pont, ahol egyet értünk. És mi más lehetne jobb közös nevező, mint maga a Pauper formátum, ahol minden pakli közös alapja ugyanaz: a valaha commonként megjelent lapok világa. A liga lényege, hogy nem egyetlen versenynapról van szó, hanem egy 8 hetes szezonról: minden forduló után pontokat gyűjtenek a résztvevők, a szezon végén pedig csak a legjobb 7 eredmény számít (a leggyengébb hetet mindenkinek elengedjük). Nincs vége egy rossz nap után: van idő fejlődni, visszajönni, és újra harcba szállni.A szezon végén mindkét helyszín legjobb 4 játékosa kvalifikál egy közös, mindent eldöntő TOP 8 döntőre. Itt derül ki, ki lesz a Common Ground nyári szezonjának bajnoka. A döntő azonban nem egy egyszerű versenynap lesz, hanem a szezon csúcspontja: egy nagy közösségi esemény opcionális side eventekkel, rengeteg játékkal és igazi fináléhoz méltó hangulattal. A nyári szezon főtémája a Guild Bajnokság: a rendszer azt is követi, melyik kétszínű kombinációval (pl. Azorius, Rakdos, Gruul) szerezted a pontjaidat. Aki a szezon végén egy adott Guild élén áll, saját, gravírozott fémkártyát kap (monocolor vagy háromszínű deckek ebbe a versenybe nem számítanak bele). Minden forduló formátuma Pauper, kizárólag valaha Common kiadásban megjelent lapokkal lehet építeni a paklit. Ez a formátum az egyensúlyról, kreativitásról és valódi játéktudásról szól, itt tényleg számít minden döntés.A fordulók időpontjait a megszokott módon, a Remete eseménynaptárában találod.Válassz guildet, építs paklit, és írjuk együtt a szezon történetét. Gyere, találjuk meg a közös nevezőt!Common Ground: Common lapok, közös alap, közös élmény.",
         "card_image_name": "Seal of the Guildpact"
     },
     "players": [
@@ -593,7 +615,7 @@ const data = {
             ]
         },
 		{
-            "name": "Takács Gergely",
+            "name": "Takács Gergő",
             "nickname": "",
             "tags":[],
             "history": [
@@ -633,7 +655,7 @@ const data = {
             ]
         },
 		{
-            "name": "Jeje",
+            "name": "Jéhann Bär Jêje",
             "nickname": "",
             "tags":[],
             "history": [
