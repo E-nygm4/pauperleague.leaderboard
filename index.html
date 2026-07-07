@@ -656,7 +656,7 @@ const data = {
         },
 		{
             "name": "Jéhann Bär Jêje",
-            "nickname": "",
+            "nickname": "Jeje",
             "tags":[],
             "history": [
                 //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
@@ -669,6 +669,102 @@ const data = {
             "history": [
                 //{"date": "2026-05-22", "location": "Vác", "deck": "Dimir Control", "record": "1-3-0", "points": 3},
             ]
+		},
+		{
+			"name": "Ferenc Balázs",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Monored Madness", "record": "4-0-0", "points": 5}
+			]
+		},
+		{
+			"name": "Fülöp-Peregi Márk",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Monoblue Terror", "record": "3-1-0", "points": 4}
+			]
+		},
+		{
+			"name": "Bán Dénes",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Monoblue Faeries", "record": "2-1-1", "points": 3.5}
+			]
+		},
+		{
+			"name": "Dávid Szabolcs",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Jund Wildfire", "record": "2-1-1", "points": 3.5}
+			]
+		},
+		{
+			"name": "Jánvári Csaba",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Grixis Affinity", "record": "2-1-1", "points": 3.5}
+			]
+		},
+		{
+			"name": "Lamper Alex",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Monoblack Sacrifice", "record": "2-2-0", "points": 3}
+			]
+		},
+		{
+			"name": "Müller Márk",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Orzhov Blade", "record": "1-1-2", "points": 3}
+			]
+		},
+		{
+			"name": "Farkas Dániel",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Dimir Affinity", "record": "1-1-2", "points": 3}
+			]
+		},
+		{
+			"name": "Kiss László",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Jund Wildfire", "record": "1-2-1", "points": 2.5}
+			]
+		},
+		{
+			"name": "Bobor Bertold",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Golgari Spy", "record": "1-3-0", "points": 2}
+			]
+		},
+		{
+			"name": "Bárdos Viktor",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Boros Synthesizer", "record": "1-3-0", "points": 2}
+			]
+		},
+		{
+			"name": "Kondacs Attila",
+			"nickname": "",
+			"tags": [],
+			"history": [
+				{"date": "2026-07-07", "location": "Szeged", "deck": "Izzet Madness", "record": "0-4-0", "points": 1}
+			]
 		}
     ]
 };
@@ -773,9 +869,9 @@ function renderLeaderboard() {
         
         // Visszaállítjuk a form-guide-ot (pöttyök)
         const formGuide = player.history.slice(0, 5).map(h => {
-            const wins = parseInt(h.record.split('-')[0]);
-            const losses = parseInt(h.record.split('-')[1]);
-            return wins > losses ? 'win' : (wins === losses ? 'draw' : 'loss');
+		const wins = parseFloat(h.record.split('-')[0]); // parseInt helyett parseFloat
+		const losses = parseFloat(h.record.split('-')[1]);
+		return wins > losses ? 'win' : (wins === losses ? 'draw' : 'loss');
         });
 
         return { ...player, total_points: totalPoints, history: filteredHistory, form: formGuide };
@@ -813,7 +909,9 @@ function renderLeaderboard() {
                 <td>${h.date}</td>
                 <td><b>${h.location}</b><br><small style="color:var(--text-muted)">${h.deck}</small></td>
                 <td class="${getRecordClass(h.record)}">${h.record}</td>
-                <td style="text-align:right; font-weight:bold; color:var(--accent-blue)">${h.points} pont</td>
+                <td style="text-align:right; font-weight:bold; color:var(--accent-blue)">
+					${Number.isInteger(h.points) ? h.points : h.points.toFixed(1)} pont
+				</td>
             </tr>
         `).join('');
 
