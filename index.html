@@ -1059,18 +1059,21 @@ function renderLeaderboard() {
             return locMatch && guildMatch;
         });
 
-		// 1. Kigyűjtjük a meccseket a pontjaikkal együtt, majd pont szerint csökkenőbe rendezzük
+		// 1. Kigyűjtjük a meccseket pontszámmal, csökkenő sorrendben a pontok alapján
         const scoredHistory = filteredHistory.map(h => ({
             ...h,
             computedPoints: calculateMatchPoints(h.record)
         })).sort((a, b) => b.computedPoints - a.computedPoints);
 
-        // 2. Kiválasztjuk a 7 legjobb meccset a pontszámításhoz és a grafikonhoz/pöttyökhöz
-        const top7History = scoredHistory.slice(0, 7);
+        // 2. Kiválasztjuk a 7 legjobb meccset a pontszámításhoz
+        const rawTop7 = scoredHistory.slice(0, 7);
+
+        // 3. FONTOS: Visszarendezzük őket dátum szerint (időrendbe), hogy a grafikon, a pöttyök és a táblázat is kronologikus legyen!
+        const top7History = [...rawTop7].sort((a, b) => new Date(a.date) - new Date(b.date));
 
         const totalPoints = top7History.reduce((sum, h) => sum + h.computedPoints, 0);
         
-        // 3. A form-guide (pöttyök) is a TOP 7 eredmény alapján generálódik
+        // A form-guide (pöttyök) most már helyes időrendben mutatja a meccseket
         const formGuide = top7History.map(h => {
             const cleanRecord = h.record.toUpperCase().replace('D', '');
             const wins = parseFloat(cleanRecord.split('-')[0]) || 0;
