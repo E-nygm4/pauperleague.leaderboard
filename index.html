@@ -600,7 +600,7 @@ const data = {
 				{"date": "2026-07-18", "location": "Vác", "deck": "Azorius Gates", "record": "3-1-0"},
 				{"date": "2026-08-01", "location": "Vác", "deck": "Azorius Ninjas", "record": "2-2-0"},
 				{"date": "2026-08-08", "location": "Vác", "deck": "Azorius Familiars", "record": "2-1-1"},
-				{"date": "2026-08-08", "location": "Vác", "deck": "Azorius Familiars", "record": "2-2-0"},
+				{"date": "2026-08-15", "location": "Vác", "deck": "Azorius Familiars", "record": "2-2-0"},
             ]
         },
 		{
@@ -742,7 +742,7 @@ const data = {
 		{
 			"name": "Bán Dénes",
 			"nickname": "",
-            "tags": ["💧 Blue Faeries"],
+            "tags": ["💧 Faeries"],
 			"history": [
 				{"date": "2026-07-07", "location": "Szeged", "deck": "Monoblue Faeries", "record": "2-1-1"},
 				{"date": "2026-07-14", "location": "Szeged", "deck": "Monoblue Faeries", "record": "2-1-1"},
@@ -1059,20 +1059,26 @@ function renderLeaderboard() {
             return locMatch && guildMatch;
         });
 
-		const topScores = filteredHistory.map(h => calculateMatchPoints(h.record))
-                                        .sort((a, b) => b - a)
-                                        .slice(0, 7);
-        const totalPoints = topScores.reduce((sum, points) => sum + points, 0);
-        
-		const formGuide = player.history.slice(0, 5).map(h => {
-			const cleanRecord = h.record.toUpperCase().replace('D', '');
-			const wins = parseFloat(cleanRecord.split('-')[0]) || 0;
-			const losses = parseFloat(cleanRecord.split('-')[1]) || 0;
-			return wins > losses ? 'win' : (wins === losses ? 'draw' : 'loss');
+		// 1. Kigyűjtjük a meccseket a pontjaikkal együtt, majd pont szerint csökkenőbe rendezzük
+        const scoredHistory = filteredHistory.map(h => ({
+            ...h,
+            computedPoints: calculateMatchPoints(h.record)
+        })).sort((a, b) => b.computedPoints - a.computedPoints);
 
+        // 2. Kiválasztjuk a 7 legjobb meccset a pontszámításhoz és a grafikonhoz/pöttyökhöz
+        const top7History = scoredHistory.slice(0, 7);
+
+        const totalPoints = top7History.reduce((sum, h) => sum + h.computedPoints, 0);
+        
+        // 3. A form-guide (pöttyök) is a TOP 7 eredmény alapján generálódik
+        const formGuide = top7History.map(h => {
+            const cleanRecord = h.record.toUpperCase().replace('D', '');
+            const wins = parseFloat(cleanRecord.split('-')[0]) || 0;
+            const losses = parseFloat(cleanRecord.split('-')[1]) || 0;
+            return wins > losses ? 'win' : (wins === losses ? 'draw' : 'loss');
         });
 
-        return { ...player, total_points: totalPoints, history: filteredHistory, form: formGuide };
+        return { ...player, total_points: totalPoints, history: filteredHistory, top7History: top7History, form: formGuide };
     });
 
     processed.sort((a, b) => b.total_points - a.total_points);
@@ -1136,8 +1142,8 @@ function renderLeaderboard() {
         `;
         container.appendChild(card);
 
-		// Diagram újragenerálása
-        const chronHistory = [...player.history].reverse(); // Ez fordítja meg az időrendet a táblázathoz
+		// Diagram újragenerálása csak a TOP 7 meccsből
+		const chronHistory = [...player.top7History].reverse();
         
         // ITT A JAVÍTÁS:
         // A táblázathoz jó a reverse, de a grafikonhoz újra rendezzük kronologikusan (régitől az újig)
